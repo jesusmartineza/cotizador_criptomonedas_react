@@ -27,7 +27,7 @@ const InputSubmit = styled.input`
 	}
 `;
 
-export const Formulario = () => {
+export const Formulario = ({ setMonedas }) => {
 	const [criptos, setCriptos] = useState([]);
 	const [error, setError] = useState(false);
 
@@ -51,9 +51,10 @@ export const Formulario = () => {
 			//Crearemos un nuevo arreglo de un objeto usando map
 			const arrayCriptos = resultado.Data.map((cripto) => {
 				const objetoCripto = {
-					id: cripto.CoinInfo.name,
+					id: cripto.CoinInfo.Name,
 					nombre: cripto.CoinInfo.FullName,
 				};
+				// console.log(objetoCripto);
 				return objetoCripto;
 			});
 			setCriptos(arrayCriptos);
@@ -71,6 +72,10 @@ export const Formulario = () => {
 		}
 
 		setError(false);
+		setMonedas({
+			moneda,
+			criptomoneda,
+		});
 	};
 
 	return (
