@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 //Componentes Creados
 import { Formulario } from './components/Formulario';
 import { Resultado } from './components/Resultado';
-
+import { Spinner } from './components/Spinner';
 //Importaciones de imagenes
 import ImagenCripto from './img/imagen-criptos.png';
 
@@ -34,8 +34,8 @@ const Heading = styled.h1`
 	color: #fff;
 	text-align: center;
 	font-weight: 700;
-	margin-top: 80px;
-	margin-bottom: 50px;
+	margin-top: 40px;
+	margin-bottom: 25px;
 	font-size: 34px;
 	&::after {
 		content: '';
@@ -50,6 +50,7 @@ const Heading = styled.h1`
 function App() {
 	const [monedas, setMonedas] = useState({});
 	const [resultado, setResultado] = useState({});
+	const [cargando, setCargando] = useState(false);
 
 	useEffect(() => {
 		//Al usar Object.keys es pormonedas es un objeto y revisaremos por su key o id si en el objeto hay algo para que se ejecute el useEffect
@@ -58,7 +59,8 @@ function App() {
 
 			// console.log(monedas);
 			const cotizarCripto = async () => {
-				// setResultado({});
+				setCargando(true);
+				setResultado({});
 				//Haciendo un object destruccion a monedas para extrer moneda y criptomoneda
 				const { moneda, criptomoneda } = monedas;
 
@@ -71,6 +73,7 @@ function App() {
 
 				setResultado(resultado.DISPLAY[criptomoneda][moneda]);
 				// console.log(resultado.DISPLAY[criptomoneda][moneda]);
+				setCargando(false);
 			};
 			cotizarCripto();
 		}
@@ -84,6 +87,7 @@ function App() {
 				<Heading>Cotiza Criptomonedas al Instante</Heading>
 				<Formulario setMonedas={setMonedas} />
 
+				{cargando && <Spinner />}
 				{/* Revisamos si al momento de dar en cotizar ya tenemos una propiedad por ejemplo PRICE pues ya se mostrara el componente con los resultados de la cotizacion */}
 				{resultado.PRICE && <Resultado resultado={resultado} />}
 			</div>
